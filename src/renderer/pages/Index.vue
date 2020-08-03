@@ -1,6 +1,6 @@
 <template>
-  <div>
-    test
+  <div id=test>
+    testssss
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
-  div
-    color red
+<style lang="stylus" scoped>
+#test
+  color red
 </style>

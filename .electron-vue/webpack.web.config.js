@@ -34,6 +34,10 @@ let webConfig = {
         use: ['vue-style-loader', 'css-loader', 'less-loader']
       },
       {
+        test: /\.styl$/,
+        use: ['stylus-loader']
+      },
+      {
         test: /\.css$/,
         use: ['vue-style-loader', 'css-loader']
       },
@@ -56,7 +60,8 @@ let webConfig = {
             loaders: {
               sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
               scss: 'vue-style-loader!css-loader!sass-loader',
-              less: 'vue-style-loader!css-loader!less-loader'
+              less: 'vue-style-loader!css-loader!less-loader',
+              stylus: 'vue-style-loader!css-loader!stylus-loader'
             }
           }
         }

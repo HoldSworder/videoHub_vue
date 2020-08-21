@@ -2,43 +2,24 @@
   <div className="container">
     <div :style="{ display: fileArr.length === 0 ? 'block' : 'none' }">
       <el-button type="primary" @click="chooseFile">选择文件夹开始</el-button>
-      <!-- <Button type="primary" onClick={chooseFile}>选择文件夹开始</Button> -->
     </div>
 
     <div :style="{ display: fileArr.length === 0 ? 'none' : 'block' }">
       <div className="header">
-        <!-- <Input 
-            placeholder="输入关键字进行搜索"
-            onChange={searchVideo}
-            style={{ width: 200 }} /> -->
 
         <el-input
           @change="searchVideo"
           placeholder="输入关键字进行搜索"
           style="width: 200px"></el-input>
 
-        <!-- <InputGroup
-            style={{ width: 'auto' }}>
-            <Select defaultValue="default"
-              onChange={sortFiles}>
-              <Option value="default">默认排序</Option>
-              <Option value="TIME POSITIVE">日期升序</Option>
-              <Option value="TIME NEGATIVE">日期降序</Option>
-              <Option value="DURATION POSITIVE">时长升序</Option>
-              <Option value="DURATION NEGATIVE">时长降序</Option>
-              <Option value="CAN NOT PLAY">特殊文件</Option>
-              <Option value="ERROR">错误文件</Option>
-            </Select>
-          </InputGroup> -->
-
-        <el-select @change="sortFiles" v-model="sortVal">
-          <el-option value="default">默认排序</el-option>
-          <el-option value="TIME POSITIVE">日期升序</el-option>
-          <el-option value="TIME NEGATIVE">日期降序</el-option>
-          <el-option value="DURATION POSITIVE">时长升序</el-option>
-          <el-option value="DURATION NEGATIVE">时长降序</el-option>
-          <el-option value="CAN NOT PLAY">特殊文件</el-option>
-          <el-option value="ERROR">错误文件</el-option>
+        <el-select @change="sortFiles" v-model="sortType">
+          <el-option value="default" label="默认排序">默认排序</el-option>
+          <el-option value="TIME POSITIVE" label="日期升序">日期升序</el-option>
+          <el-option value="TIME NEGATIVE" label="日期降序">日期降序</el-option>
+          <el-option value="DURATION POSITIVE" label="时长升序">时长升序</el-option>
+          <el-option value="DURATION NEGATIVE" label="时长降序">时长降序</el-option>
+          <el-option value="CAN NOT PLAY" label="特殊文件">特殊文件</el-option>
+          <el-option value="ERROR" label="错误文件">错误文件</el-option>
         </el-select>
       </div>
 
@@ -49,41 +30,34 @@
             <span>{{ item.title }}</span>
             <div class="clearfix">
               <time>{{ item.duration }}</time>
-            </div>
+            </div>    
           </div>
         </el-card>
-        <!-- {
-            showArr.map((item, index) => {
-              return (
-
-                  <Card 
-                    className="card"
-                    style={{ width: 240 }}
-                    cover={<img alt={item.title} src={item.img} />}
-                    key={index}
-                    onContextMenu={delVideo.bind(this, item)}
-                    onDoubleClick={playVideo.bind(this, item)}> 
-                    <Meta title={item.title} description={item.duration}></Meta>
-                  </Card>
-              )
-            })
-          } -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { saveConfig } from '@/script/handleData/handleConfig.js'
+import { getFiles, fixVideoInfo, saveVideoData } from '@/script/getProgram'
 
-const {remote} = window.require('electron')
-const {shell, Menu, webContents, dialog} = remote 
+const { remote } = require('electron')
+const { shell, Menu, webContents, dialog } = remote 
+const ipc = window.require('electron').ipcRenderer
 
 export default {
   data() {
     return {
-      showArr: [],
-      fileArr: [],
-      sortVal: ''
+      sortType: 'default',
+    }
+  },
+  computed: {
+    fileArr() {
+      return this.$store.getters['content/getVideoList']
+    },
+    showArr() {
+      return this.fileArr
     }
   },
   methods: {
@@ -95,19 +69,39 @@ export default {
         saveConfig({
             dirPath: res.filePaths[0]
         })
-
-        setFiles([])
-        loadVideo()
+        this.loadVideo()
       })
     },
-    sortFiles() {},
+
+    sortFiles() {
+      console.log(this.sortType)
+    },
+
     searchVideo() {},
+
+    async loadVideo() {
+      await this.$store.dispatch('content/loadFile', document)
+    },
+
+    setIpc() {
+      const THAT = this
+      ipc.on('resetFile', function(event, arg) {
+        THAT.$store.dispatch('content/setVideoList', [])
+      })
+
+      ipc.on('setVideoFile', function(event, arg) {
+        THAT.$store.dispatch('content/setVideoList', [])
+        THAT.loadVideo()
+      })
+    }
   },
+  mounted() {
+    console.log(this.$store)
+    this.setIpc()
+    console.log(this.sortType)
+  }
 }
 </script>
 
 <style scoped>
-.test {
-  color: #333;
-}
 </style>

@@ -181,9 +181,9 @@ async function getFiles() {
   result = checked
   const data = await getAllVideo(filePath)
   
-  // console.log('所有视频的数量为', videoNumber)
-  // console.log('wallpaper视频的数量为', wallpaperNumber)
-  // console.log(data)
+  console.log('所有视频的数量为', videoNumber)
+  console.log('wallpaper视频的数量为', wallpaperNumber)
+  console.log(data)
   return data
 }
 

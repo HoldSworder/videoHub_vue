@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index from '../pages/Index.vue'
-import Watch from '@/pages/Watch.vue'
+import Index from '../pages/Index/Index.vue'
+import Watch from '@/pages/Watch/Watch.vue'
 
 Vue.use(Router)
 

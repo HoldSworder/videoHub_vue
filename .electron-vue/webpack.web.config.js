@@ -38,6 +38,10 @@ let webConfig = {
         use: ['vue-style-loader', 'css-loader', 'stylus-loader']
       },
       {
+        test: /\.stylus$/,
+        use: ['vue-style-loader', 'css-loader', 'stylus-loader']
+      },
+      {
         test: /\.css$/,
         use: ['vue-style-loader', 'css-loader']
       },

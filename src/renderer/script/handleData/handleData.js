@@ -8,9 +8,9 @@ const dataPath = path.resolve('./data/data.json')
 const { dataLayout } = require('@/common/layout.js')
 
 async function saveData(newData, type) {
-  let data = {...dataLayout}
+  const data = { ...dataLayout }
 
-  switch(type) {
+  switch (type) {
     case 'data':
       data.videoFiles = newData.filter(x => {
         return x.canplay === 1
@@ -19,12 +19,12 @@ async function saveData(newData, type) {
         return x.canplay === 0 || x.canplay === 2
       })
       break
-    case 'option': 
+    case 'option':
       data.option = newData
   }
   const str = JSON.stringify(data)
   try {
-     fsp.writeFile(dataPath, str, 'utf-8')
+    fsp.writeFile(dataPath, str, 'utf-8')
   } catch (error) {
     throw error
   }
@@ -34,14 +34,14 @@ function readData() {
   let data
   try {
     data = fs.readFileSync(dataPath, 'utf-8')
-    if(!isJSON(data)) {
+    if (!isJSON(data)) {
       fs.writeFileSync(dataPath, JSON.stringify(dataLayout), 'utf-8')
       console.log('ERROR: is not JSON')
     }
-  }catch (err) {
+  } catch (err) {
     fsp.writeFile(dataPath, JSON.stringify(dataLayout), 'utf-8')
     data = JSON.stringify(dataLayout)
-    console.log(err) 
+    console.log(err)
   }
   return JSON.parse(data)
 }

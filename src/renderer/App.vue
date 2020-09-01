@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'video_hub'
-  }
+export default {
+  name: 'VideoHub'
+}
 </script>
 
-<style>
-  /* CSS */
+<style lang="stylus">
+@import './stylus/index'
 </style>

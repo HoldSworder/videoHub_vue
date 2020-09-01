@@ -9,7 +9,7 @@ class PromiseLimit {
 
   start(paths) {
     this.paths = [...paths]
-    while(this.pool < this.max) {
+    while (this.pool < this.max) {
       const path = this.paths.shift()
       this.setTask(path)
     }
@@ -26,7 +26,7 @@ class PromiseLimit {
   }
 
   setTask(path) {
-    if(!path) return
+    if (!path) return
     const promise = this.cb(path)
     this.pool.push(promise)
 

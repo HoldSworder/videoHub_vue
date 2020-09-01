@@ -6,7 +6,6 @@ const { remote } = require('electron')
 const { shell, Menu, webContents, dialog } = remote
 const ipc = window.require('electron').ipcRenderer
 
-
 // 设置ipc监听器
 export function setIpc() {
   const THAT = this
@@ -24,44 +23,47 @@ export function setIpc() {
 export function setRightTemplate(info) {
   const THAT = this
 
-  const rightTemplate = [{
-    label: '删除',
-    click() {
-      delProgram(info.menu)
-    }
-  }, {
-    label: '资源管理器中打开',
-    click() {
-      shell.showItemInFolder(info.file)
-    }
-  }, {
-    label: '属性',
-    click() {
-      setInfo(info)
-    }
-  }, {
-    label: '同屏观看',
-    click() {
-      let content = findContent('watch')
-      if (!content) {
-        const focuse = webContents.getFocusedWebContents()
-        const focuseURL = focuse.getURL()
-        window.open(focuseURL + 'watch')
-        setTimeout(() => {
+  const rightTemplate = [
+    {
+      label: '删除',
+      click() {
+        delProgram(info.menu)
+      }
+    },
+    {
+      label: '资源管理器中打开',
+      click() {
+        shell.showItemInFolder(info.file)
+      }
+    },
+    {
+      label: '属性',
+      click() {
+        // setInfo(info)
+      }
+    },
+    {
+      label: '同屏观看',
+      click() {
+        let content = findContent('watch')
+        if (!content) {
+          const focuse = webContents.getFocusedWebContents()
+          const focuseURL = focuse.getURL()
+          window.open(focuseURL + 'watch')
+          setTimeout(() => {
+            sendWatch()
+          }, 1000)
+        } else {
           sendWatch()
-        }, 1000)
-      } else {
-        sendWatch()
-      }
+        }
 
-      function sendWatch() {
-        content = findContent('watch')
-        let watchList = [...THAT.$store.getters['watch/getWatchList']]
-        watchList.push(info)
-        THAT.$store.dispatch('watch/setWatchList', watchList)
+        function sendWatch() {
+          content = findContent('watch')
+          THAT.$store.dispatch('watch/addWatch', info)
+        }
       }
     }
-  }]
+  ]
 
   const m = Menu.buildFromTemplate(rightTemplate)
   m.popup({ window: remote.getCurrentWindow() })
@@ -71,17 +73,17 @@ export function setRightTemplate(info) {
 async function delProgram(dirPath) {
   const files = await fsp.readdir(dirPath)
 
-  if(files.length === 0) await fsp.rmdir(path)
+  if (files.length === 0) await fsp.rmdir(path)
 
   for (const item of files) {
     const filePath = path.join(dirPath, item)
     const stats = await fsp.stat(filePath)
 
-    if(stats.isDirectory()) {
+    if (stats.isDirectory()) {
       delProgram(filePath)
-    }else {
+    } else {
       await fsp.unlink(filePath)
-      if(await fsp.readdir(dirPath).length === 0) {
+      if ((await fsp.readdir(dirPath).length) === 0) {
         await fsp.rmdir(dirPath)
       }
     }
@@ -96,7 +98,7 @@ function findContent(name) {
   }
   const content = allWebContents.find(x => {
     const contentURL = x.getURL()
-    if(!contentURL) return false
+    if (!contentURL) return false
     return new URL(x.getURL()).hash === '#/' + name
   })
   return content

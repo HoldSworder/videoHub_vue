@@ -6,23 +6,23 @@ const fs = require('fs')
 // let BasePath = 'E:/steam/steamapps/workshop/content/431960'
 function getBasePath() {
   let BasePath = readConfig().dirPath
-  
-  if(BasePath === '') {
+
+  if (BasePath === '') {
     const nowPath = path.resolve('./')
-    if(nowPath.includes(431960)) {
+    if (nowPath.includes(431960)) {
       BasePath = nowPath.slice(0, nowPath.indexOf(431960) + 6)
-    }else {
+    } else {
       BasePath = nowPath
     }
   }
-  
+
   try {
     fs.accessSync(path.normalize(BasePath))
   } catch (error) {
     console.log(error)
     BasePath = path.resolve('./')
   }
-  
+
   console.log(BasePath)
   return BasePath
 }

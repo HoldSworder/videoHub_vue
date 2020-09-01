@@ -12,4 +12,4 @@ const errLayout = {
   videoErr: []
 }
 
-module.exports = {configLayout, dataLayout}
+module.exports = { configLayout, dataLayout }

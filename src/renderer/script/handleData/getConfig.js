@@ -8,7 +8,6 @@ import { saveConfig, readConfig } from '@/script/handleData/handleConfig.js'
 
 const dataObj = readConfig()
 
-
 // console.log(dataObj)
 
 async function getConfig() {

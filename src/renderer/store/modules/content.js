@@ -6,7 +6,7 @@ export default {
     videoList: [],
     loadVal: {
       isLoading: false,
-      title: '',
+      title: ''
     }
   },
   getters: {
@@ -21,7 +21,7 @@ export default {
     }
   },
   actions: {
-    setVideoList({commit}, list) {
+    setVideoList({ commit }, list) {
       commit('SET_VIDEOLIST', list)
     },
 

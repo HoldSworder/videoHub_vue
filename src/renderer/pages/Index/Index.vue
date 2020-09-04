@@ -11,10 +11,9 @@
       <div class="header">
         <el-input placeholder="输入关键字进行搜索"
                   style="width: 200px"
-                  @change="searchVideo" />
+                 v-model="searchVal" />
 
-        <el-select v-model="sortType"
-                   @change="sortFiles">
+        <el-select v-model="sortType">
           <el-option value="default"
                      label="默认排序">
             默认排序
@@ -60,6 +59,7 @@
 import { saveConfig } from '@/script/handleData/handleConfig.js'
 import { getFiles, fixVideoInfo, saveVideoData } from '@/script/getProgram'
 import { setIpc, setRightTemplate } from './script/electron'
+import sort from '@/script/sort.js'
 
 import card from '@/components/common/card'
 
@@ -75,13 +75,35 @@ export default {
   data() {
     return {
       sortType: 'default',
-      fileArr: []
+      searchVal: ''
     }
   },
 
   computed: {
+    fileArr() {
+      return this.$store.getters['content/getVideoList']
+    },
     showArr() {
-      return this.fileArr
+      const { fileArr, sortType, searchVal } = this
+      let output = [...fileArr]
+
+      if (sortType !== 'default') {
+        output = sort(sortType, output)
+      } else {
+        output = fileArr
+      }
+
+      if (searchVal !== '') {
+        output = fileArr.filter(x => {
+          return (
+            x.title.includes(searchVal) ||
+            x.id === Number(searchVal) ||
+            String(x.name).includes(searchVal)
+          )
+        })
+      }
+
+      return output
     }
   },
 
@@ -104,16 +126,8 @@ export default {
         })
     },
 
-    sortFiles() {
-      console.log(this.sortType)
-    },
-
-    searchVideo() {},
-
     async loadVideo() {
       const files = await getFiles()
-
-      this.fileArr = files
 
       const getNotify = this.$notify({
         title: '获取视频信息中...',
@@ -131,7 +145,7 @@ export default {
         type: 'success'
       })
 
-      this.fileArr = fixFiles
+      this.$store.dispatch('content/setVideoList', fixFiles)
     },
 
     setRightTemplateHandler(info) {
@@ -146,4 +160,8 @@ export default {
   display flex
   align-items center
   justify-content space-between
+  flex-wrap wrap
+
+.header
+  {$flexDefault}
 </style>

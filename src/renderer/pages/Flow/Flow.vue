@@ -14,29 +14,44 @@
                @canplay="setIntersection"></video>
       </el-card>
     </div>
-    
+
     <div id="loadMore">
-      <Spin tip="没有更多了" />
+      <span>加载中.......</span>
     </div>
   </div>
 </template>
 
 <script>
+import { shuffle } from '@/common/tool.js'
 export default {
   data() {
-    return {}
+    return {
+      nowPlay: '',
+      showNum: 5,
+      showIndex: 1
+    }
+  },
+  computed: {
+    shuffleArr() {
+      return shuffle(this.$store.getters['content/getVideoList'])
+    },
+    showArr() {
+      return this.shuffleArr.slice(0, this.showIndex * this.showNum)
+    }
   },
   methods: {
     setIntersection(e) {
-      e.persist()
       const target = e.target
-      const videoH = document.querySelector('.videoItem').offsetHeight
+      const videoH = document.querySelector('.video-item').offsetHeight
       const windwH = document.body.clientHeight
+      const THAT = this
+      const { nowPlay } = this
+      console.log(target)
 
       const margin = (windwH - videoH - 10) / 2
 
       const option = {
-        root: document.querySelector('#showBox'),
+        root: document.querySelector('#videoBox'),
         threshold: [0.5],
         rootMargin: `-${margin}px 0px`
       }
@@ -45,8 +60,9 @@ export default {
         const target = entries[0].target
 
         if (entries[0].isIntersecting) {
+          console.log('playyyyyyyyyyyyyyy')
           if (nowPlay) nowPlay.pause()
-          setNowPlay(target)
+          THAT.nowPlay = target
           target.play()
           console.log(nowPlay)
         } else {
@@ -57,7 +73,26 @@ export default {
       const io = new IntersectionObserver(callback, option)
 
       io.observe(target)
+    },
+    loadMore() {
+      const io = new IntersectionObserver(
+        function(entries) {
+          if (entries[0].isIntersecting) {
+            this.showIndex++
+            console.log('loadddddddddddddd')
+          }
+        },
+        {
+          threshold: [0],
+          rootMargin: `100px 0px`
+        }
+      )
+
+      io.observe(document.querySelector('#loadMore'))
     }
+  },
+  mounted() {
+    console.log(this.showArr)
   }
 }
 </script>

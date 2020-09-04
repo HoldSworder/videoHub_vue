@@ -10,6 +10,7 @@ const ipc = window.require('electron').ipcRenderer
 export function setIpc() {
   const THAT = this
   ipc.on('resetFile', function(event, arg) {
+    console.log('asdfasdf')
     THAT.$store.dispatch('content/setVideoList', [])
   })
 

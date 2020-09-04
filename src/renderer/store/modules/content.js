@@ -1,13 +1,7 @@
-import { getFiles, fixVideoInfo, saveVideoData } from '@/script/getProgram'
-
 export default {
   namespaced: true,
   state: {
-    videoList: [],
-    loadVal: {
-      isLoading: false,
-      title: ''
-    }
+    videoList: []
   },
   getters: {
     getVideoList: state => state.videoList

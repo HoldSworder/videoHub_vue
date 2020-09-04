@@ -39,7 +39,7 @@ module.exports = {
         "singleQuote": true,
         "trailingComma": "none",
         "bracketSpacing": true,
-        "jsxBracketSameLine": true,
+        "jsxBracketSameLine": false,
         "parser": "flow",
         "semi": false,
         "tabWidth": 2,

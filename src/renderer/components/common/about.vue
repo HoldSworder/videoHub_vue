@@ -6,9 +6,9 @@
                :visible.sync="show">
 
       <el-form label-width="80px">
-        <el-from-item class="avatar-box">
+        <el-form-item class="avatar-box">
           <el-avatar size="large" :src="circleUrl"></el-avatar>
-        </el-from-item>
+        </el-form-item>
 
         <el-form-item label="作者">
           <span>Qzr</span>

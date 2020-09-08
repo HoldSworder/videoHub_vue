@@ -1,10 +1,10 @@
 const path = require('path')
-const fs = window.require('fs')
+const fs = require('fs')
 const fsp = fs.promises
 
 const { remote } = require('electron')
 const { shell, Menu, webContents, dialog } = remote
-const ipc = window.require('electron').ipcRenderer
+const ipc = require('electron').ipcRenderer
 
 // 设置ipc监听器
 export function setIpc() {

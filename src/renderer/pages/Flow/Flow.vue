@@ -2,6 +2,7 @@
   <div id="flowBox">
     <div id="videoBox">
       <el-card v-for="item in showArr"
+               class="video-card"
                :key="item.id">
 
         <div slot="header">
@@ -15,8 +16,15 @@
       </el-card>
     </div>
 
-    <div id="loadMore">
+    <div id="loadMore"
+         class="alert-text"
+         v-if="showArr.length !== shuffleArr.length">
       <span>加载中.......</span>
+    </div>
+
+    <div class="alert-text"
+         v-else>
+      <span>没有更多了</span>
     </div>
   </div>
 </template>
@@ -27,8 +35,8 @@ export default {
   data() {
     return {
       nowPlay: '',
-      showNum: 5,
-      showIndex: 1
+      loadNum: 5,
+      showIndex: 0
     }
   },
   computed: {
@@ -36,7 +44,7 @@ export default {
       return shuffle(this.$store.getters['content/getVideoList'])
     },
     showArr() {
-      return this.shuffleArr.slice(0, this.showIndex * this.showNum)
+      return this.shuffleArr.slice(0, this.showIndex * this.loadNum)
     }
   },
   methods: {
@@ -46,12 +54,10 @@ export default {
       const windwH = document.body.clientHeight
       const THAT = this
       const { nowPlay } = this
-      console.log(target)
 
       const margin = (windwH - videoH - 10) / 2
 
       const option = {
-        root: document.querySelector('#videoBox'),
         threshold: [0.5],
         rootMargin: `-${margin}px 0px`
       }
@@ -60,11 +66,9 @@ export default {
         const target = entries[0].target
 
         if (entries[0].isIntersecting) {
-          console.log('playyyyyyyyyyyyyyy')
           if (nowPlay) nowPlay.pause()
           THAT.nowPlay = target
           target.play()
-          console.log(nowPlay)
         } else {
           if (target !== nowPlay) target.pause()
         }
@@ -74,12 +78,14 @@ export default {
 
       io.observe(target)
     },
+
     loadMore() {
+      const THAT = this
       const io = new IntersectionObserver(
         function(entries) {
           if (entries[0].isIntersecting) {
-            this.showIndex++
-            console.log('loadddddddddddddd')
+            THAT.showIndex++
+            console.log(THAT.showIndex)
           }
         },
         {
@@ -91,11 +97,32 @@ export default {
       io.observe(document.querySelector('#loadMore'))
     }
   },
+
   mounted() {
-    console.log(this.showArr)
+    this.loadMore()
   }
 }
 </script>
 
-<style>
+<style scoped lang="stylus">
+#flowBox
+  width 100vw
+  height 100vh
+
+.video-item
+  width 1024px
+  height 576px
+
+#videoBox
+  display flex
+  align-items center
+  flex-direction column
+
+.video-card
+  margin 10px
+
+.alert-text
+  color $color-text
+  margin 10px 0
+  {$flexDefault}
 </style>

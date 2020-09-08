@@ -11,7 +11,7 @@
       <div class="header">
         <el-input placeholder="输入关键字进行搜索"
                   style="width: 200px"
-                 v-model="searchVal" />
+                  v-model="searchVal" />
 
         <el-select v-model="sortType">
           <el-option value="default"
@@ -47,6 +47,7 @@
 
       <div class="videoBox">
         <card v-for="(item, index) in showArr"
+              class="video-card"
               :key="index"
               :card-data="item"
               @contextmenu.native.prevent="setRightTemplateHandler(item)" />
@@ -107,10 +108,6 @@ export default {
     }
   },
 
-  mounted() {
-    setIpc.call(this)
-  },
-
   methods: {
     chooseFile() {
       dialog
@@ -151,6 +148,10 @@ export default {
     setRightTemplateHandler(info) {
       setRightTemplate.call(this, info)
     }
+  },
+
+  mounted() {
+    setIpc.call(this)
   }
 }
 </script>
@@ -159,9 +160,14 @@ export default {
 .videoBox
   display flex
   align-items center
-  justify-content space-between
+  justify-content start
   flex-wrap wrap
 
 .header
   {$flexDefault}
+  margin 10px
+  justify-content space-around
+
+.video-card
+  margin 0 10px 10px 0
 </style>

@@ -50,6 +50,7 @@
               class="video-card"
               :key="index"
               :card-data="item"
+              @dblclick.native.prevent="playVideo(item)"
               @contextmenu.native.prevent="setRightTemplateHandler(item)" />
       </div>
     </div>
@@ -66,7 +67,7 @@ import card from '@/components/common/card'
 
 const { remote } = require('electron')
 const { shell, Menu, webContents, dialog } = remote
-const ipc = window.require('electron').ipcRenderer
+const ipc = require('electron').ipcRenderer
 
 export default {
   components: {
@@ -84,6 +85,7 @@ export default {
     fileArr() {
       return this.$store.getters['content/getVideoList']
     },
+
     showArr() {
       const { fileArr, sortType, searchVal } = this
       let output = [...fileArr]
@@ -147,6 +149,10 @@ export default {
 
     setRightTemplateHandler(info) {
       setRightTemplate.call(this, info)
+    },
+
+    playVideo(info) {
+      shell.openItem(info.file)
     }
   },
 

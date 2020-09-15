@@ -59,7 +59,8 @@
 
 <script>
 import { saveConfig } from '@/script/handleData/handleConfig.js'
-import { getFiles, fixVideoInfo, saveVideoData } from '@/script/getProgram'
+import fixVideoInfo from '@/script/handleVideo/index'
+import getFiles from '@/script/handleFile/index'
 import { setIpc, setRightTemplate } from './script/electron'
 import sort from '@/script/sort.js'
 
@@ -98,11 +99,7 @@ export default {
 
       if (searchVal !== '') {
         output = fileArr.filter(x => {
-          return (
-            x.title.includes(searchVal) ||
-            x.id === Number(searchVal) ||
-            String(x.name).includes(searchVal)
-          )
+          return x.title.includes(searchVal) || x.id === Number(searchVal) || String(x.name).includes(searchVal)
         })
       }
 

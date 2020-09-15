@@ -1,6 +1,4 @@
-const path = require('path')
-const fs = require('fs')
-const fsp = fs.promises
+import delFile from '@/script/handleFile/delFile.js'
 
 const { remote } = require('electron')
 const { shell, Menu, webContents, dialog } = remote
@@ -10,7 +8,6 @@ const ipc = require('electron').ipcRenderer
 export function setIpc() {
   const THAT = this
   ipc.on('resetFile', function(event, arg) {
-    console.log('asdfasdf')
     THAT.$store.dispatch('content/setVideoList', [])
   })
 
@@ -25,12 +22,6 @@ export function setRightTemplate(info) {
   const THAT = this
 
   const rightTemplate = [
-    {
-      label: '删除',
-      click() {
-        delProgram(info.menu)
-      }
-    },
     {
       label: '资源管理器中打开',
       click() {
@@ -63,32 +54,24 @@ export function setRightTemplate(info) {
           THAT.$store.dispatch('watch/addWatch', info)
         }
       }
+    },
+    {
+      label: '删除',
+      click() {
+        console.log(info)
+        delFile(info.file)
+      }
+    },
+    {
+      label: '删除文件夹',
+      click() {
+        delFile(info.menu)
+      }
     }
   ]
 
   const m = Menu.buildFromTemplate(rightTemplate)
   m.popup({ window: remote.getCurrentWindow() })
-}
-
-// 删除文件
-async function delProgram(dirPath) {
-  const files = await fsp.readdir(dirPath)
-
-  if (files.length === 0) await fsp.rmdir(path)
-
-  for (const item of files) {
-    const filePath = path.join(dirPath, item)
-    const stats = await fsp.stat(filePath)
-
-    if (stats.isDirectory()) {
-      delProgram(filePath)
-    } else {
-      await fsp.unlink(filePath)
-      if ((await fsp.readdir(dirPath).length) === 0) {
-        await fsp.rmdir(dirPath)
-      }
-    }
-  }
 }
 
 // 判断是否已经打开子进程

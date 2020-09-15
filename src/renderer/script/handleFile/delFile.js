@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const fsp = fs.promises
 
-async function delProgram(dirPath) {
+async function delFile(dirPath) {
   const files = await fsp.readdir(dirPath)
 
   if (files.length === 0) await fsp.rmdir(path)
@@ -12,7 +12,7 @@ async function delProgram(dirPath) {
     const stats = await fsp.stat(filePath)
 
     if (stats.isDirectory()) {
-      delProgram(filePath)
+      delFile(filePath)
     } else {
       await fsp.unlink(filePath)
       if ((await fsp.readdir(dirPath).length) === 0) {
@@ -22,4 +22,4 @@ async function delProgram(dirPath) {
   }
 }
 
-export default delProgram
+export default delFile

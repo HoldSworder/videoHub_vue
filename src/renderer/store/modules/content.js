@@ -10,8 +10,12 @@ export default {
     SET_VIDEOLIST(state, videoList) {
       state.videoList = videoList
     },
-    SET_LOADING(state, isLoading) {
-      state.loadVal.isLoading = isLoading
+    DEL_VIDEO(state, id) {
+      state.videoList.forEach((item, index) => {
+        if (item.id === id) {
+          state.videoList.splice(index, 1)
+        }
+      })
     }
   },
   actions: {
@@ -19,8 +23,8 @@ export default {
       commit('SET_VIDEOLIST', list)
     },
 
-    loadConfig() {
-      console.log('asdfasdfas')
+    delVideo({ commit }, id) {
+      commit('DEL_VIDEO', id)
     }
   }
 }

@@ -3,9 +3,16 @@ const fs = require('fs')
 const fsp = fs.promises
 
 async function delFile(dirPath) {
-  const files = await fsp.readdir(dirPath)
+  if (fs.statSync(dirPath).isFile()) {
+    fs.unlinkSync(dirPath)
+    return
+  }
 
-  if (files.length === 0) await fsp.rmdir(path)
+  const files = await fsp.readdir(dirPath)
+  if (files.length === 0) {
+    await fsp.rmdir(path)
+    return
+  }
 
   for (const item of files) {
     const filePath = path.join(dirPath, item)

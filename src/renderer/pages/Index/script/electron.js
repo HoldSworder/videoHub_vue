@@ -58,7 +58,6 @@ export function setRightTemplate(info) {
     {
       label: '删除',
       click() {
-        console.log(info)
         delFile(info.file)
       }
     },

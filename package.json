@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "author": "邱卓然 <z5021996@vip.qq.com>",
   "description": "An electron-vue project",
-  "license": null,
+  "license": "",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",

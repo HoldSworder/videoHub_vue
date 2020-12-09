@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-13 10:23:46
+ * @Description  : 保存、读取data文件
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-12-07 15:06:00
+ */
+
 import { isJSON } from '@/common/tool.js'
 
 const fs = require('fs')
@@ -36,12 +44,12 @@ function readData() {
     data = fs.readFileSync(dataPath, 'utf-8')
     if (!isJSON(data)) {
       fs.writeFileSync(dataPath, JSON.stringify(dataLayout), 'utf-8')
-      console.log('ERROR: is not JSON')
+      console.error('ERROR: is not JSON')
     }
   } catch (err) {
     fsp.writeFile(dataPath, JSON.stringify(dataLayout), 'utf-8')
     data = JSON.stringify(dataLayout)
-    console.log(err)
+    console.error(err)
   }
   return JSON.parse(data)
 }

@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-13 10:23:46
+ * @Description  : 删除文件
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-12-07 15:08:03
+ */
+
 const path = require('path')
 const fs = require('fs')
 const fsp = fs.promises

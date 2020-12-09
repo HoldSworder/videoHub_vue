@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-03 16:01:16
+ * @Description  : main
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-11-30 16:41:21
+ */
+
 import Vue from 'vue'
 import axios from 'axios'
 

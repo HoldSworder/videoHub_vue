@@ -7761,6 +7761,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.3.tgz?cache=0&sync_timestamp=1593529702917&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsignal-exit%2Fdownload%2Fsignal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha1-oUEMLt2PB3sItOJTyOrPyvBXRhw=
 
+simple-web-worker@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/simple-web-worker/download/simple-web-worker-1.2.0.tgz#2deffd0998976b824b141a27ce504d31d0d99108"
+  integrity sha1-Le/9CZiXa4JLFBonzlBNMdDZkQg=
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/slash/download/slash-1.0.0.tgz?cache=0&sync_timestamp=1593529703136&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fslash%2Fdownload%2Fslash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -8761,6 +8766,13 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue-worker@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/vue-worker/download/vue-worker-1.2.1.tgz#deae14b98a9d89daabb20e7fc6190642849b6d93"
+  integrity sha1-3q4UuYqdidqrsg5/xhkGQoSbbZM=
+  dependencies:
+    simple-web-worker "1.2.0"
 
 vue@^2.5.16:
   version "2.6.11"

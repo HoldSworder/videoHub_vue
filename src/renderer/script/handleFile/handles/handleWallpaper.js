@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-09-08 17:41:58
+ * @Description  : 处理wallpaper文件
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-12-07 15:07:50
+ */
+
 import { genId } from '@/common/tool.js'
 import { videoType } from '../extName'
 

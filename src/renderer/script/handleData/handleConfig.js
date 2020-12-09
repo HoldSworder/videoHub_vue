@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-13 10:23:46
+ * @Description  : 保存、读取config文件
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-12-07 15:06:25
+ */
+
 import { isJSON } from '@/common/tool.js'
 
 const fs = require('fs')

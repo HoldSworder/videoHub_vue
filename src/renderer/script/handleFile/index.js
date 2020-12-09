@@ -1,5 +1,13 @@
+/**
+ * @Date         : 2020-09-08 14:52:21
+ * @Description  : 文件处理
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-12-07 15:11:45
+ */
+
 import getBasePath from '@/common/basePath.js'
-import { readData } from '@/script/handleData/handleData.js'
+import { readData } from '@/script/handleData'
 import { videoType, zipType, imgType } from './extName'
 import handleVideo from './handles/handleVideo'
 import handleWallpaper from './handles/handleWallpaper'

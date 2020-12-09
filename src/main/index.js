@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-03 16:01:16
+ * @Description  : index
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2020-11-19 17:27:58
+ */
+
 import { app, BrowserWindow } from 'electron'
 import '../renderer/store'
 
@@ -12,19 +20,16 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow
-const winURL =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:9080`
-    : `file://${__dirname}/index.html`
+const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`
 
 function createWindow() {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 1000,
+    height: 800,
     useContentSize: true,
-    width: 1500,
+    width: 1200,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false

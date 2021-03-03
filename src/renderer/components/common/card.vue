@@ -1,3 +1,12 @@
+<!--
+ * @Date         : 2020-08-27 16:17:35
+ * @Description  : 
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2021-03-02 15:23:24
+-->
+
+
 <template>
   <div>
     <el-card shadow="hover"
@@ -20,7 +29,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
+img
+  width 240px
+  height 240px
+
 .card-time {
   font-size: 13px;
   color: #999;

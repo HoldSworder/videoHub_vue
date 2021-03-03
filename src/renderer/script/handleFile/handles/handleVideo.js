@@ -3,12 +3,12 @@
  * @Description  : 处理普通video文件
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2020-12-07 15:07:39
+ * @LastEditTime : 2021-03-02 15:48:21
  */
 
 import { genId } from '@/common/tool.js'
 
-async function video({ res, filePath, childPath, baseName, stats }, videoNumber) {
+async function video({ res, filePath, childPath, baseName, stats }) {
   const target = res.find(x => {
     return x.file === childPath
   })
@@ -24,9 +24,11 @@ async function video({ res, filePath, childPath, baseName, stats }, videoNumber)
       create: stats.birthtimeMs,
       stats: { ...stats }
     })
+
+    return true
   }
 
-  videoNumber++
+  return false
 }
 
 export default video

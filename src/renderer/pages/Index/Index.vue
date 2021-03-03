@@ -3,7 +3,7 @@
  * @Description  : index
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2020-11-30 16:41:12
+ * @LastEditTime : 2021-03-02 18:03:41
 -->
 
 
@@ -52,6 +52,12 @@
             错误文件
           </el-option>
         </el-select>
+
+        <more></more>
+
+        <div>
+          <i class="el-icon-loading"></i>
+        </div>
       </div>
 
       <div class="videoBox">
@@ -62,7 +68,9 @@
               @dblclick.native.prevent="playVideo(item)"
               @contextmenu.native.prevent="setRightTemplateHandler(item)" />
       </div>
+      
     </div>
+    
   </div>
 </template>
 
@@ -74,6 +82,7 @@ import { setIpc, setRightTemplate } from './script/electron'
 import sort from '@/script/sort.js'
 
 import card from '@/components/common/card'
+import more from './components/more'
 
 const { remote } = require('electron')
 const { shell, Menu, webContents, dialog } = remote
@@ -81,7 +90,8 @@ const ipc = require('electron').ipcRenderer
 
 export default {
   components: {
-    card
+    card,
+    more
   },
 
   data() {
@@ -136,8 +146,7 @@ export default {
 
       const getNotify = this.$notify({
         title: '获取视频信息中...',
-        message: '获取视频时长及缩略图片',
-        duration: 0
+        message: '获取视频时长及缩略图片'
       })
 
       const fixFiles = await fixVideoInfo(files)

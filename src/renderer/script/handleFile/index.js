@@ -3,7 +3,7 @@
  * @Description  : 文件处理
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2020-12-07 15:11:45
+ * @LastEditTime : 2021-03-02 15:48:31
  */
 
 import getBasePath from '@/common/basePath.js'
@@ -11,12 +11,13 @@ import { readData } from '@/script/handleData'
 import { videoType, zipType, imgType } from './extName'
 import handleVideo from './handles/handleVideo'
 import handleWallpaper from './handles/handleWallpaper'
+import store from '@/store'
 
 const path = require('path')
 const fse = require('fs').promises
 
-let videoNumber = 0
-let wallpaperNumber = 0
+let videoCount = 0
+let wallpaperCount = 0
 
 let result = []
 
@@ -54,11 +55,13 @@ async function getAllFiles(filePath, res = result) {
       const baseName = path.basename(item)
 
       if (videoType.includes(extName)) {
-        await handleVideo({ res, filePath, childPath, baseName, stats }, videoNumber)
+        const isSuccess = await handleVideo({ res, filePath, childPath, baseName, stats })
+        if (isSuccess) videoCount++
       }
 
       if (item === 'project.json') {
-        await handleWallpaper({ res, filePath, childPath, stats }, wallpaperNumber)
+        const isSuccess = await handleWallpaper({ res, filePath, childPath, stats })
+        if (isSuccess) wallpaperCount++
       }
     }
   }
@@ -66,8 +69,8 @@ async function getAllFiles(filePath, res = result) {
 }
 
 async function getFiles() {
-  videoNumber = 0
-  wallpaperNumber = 0
+  videoCount = 0
+  wallpaperCount = 0
 
   const checked = checkFiles()
   result = checked
@@ -75,9 +78,15 @@ async function getFiles() {
   const filePath = getBasePath()
   const data = await getAllFiles(filePath)
 
-  console.log('所有视频的数量为', videoNumber)
-  console.log('wallpaper视频的数量为', wallpaperNumber)
+  console.log('所有视频的数量为', videoCount)
+  console.log('wallpaper视频的数量为', wallpaperCount)
   console.log(data)
+
+  store.dispatch('content/setVideoInfo', {
+    videoCount,
+    wallpaperCount
+  })
+
   return data
 }
 

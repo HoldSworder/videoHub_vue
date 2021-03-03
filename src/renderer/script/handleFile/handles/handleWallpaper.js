@@ -3,7 +3,7 @@
  * @Description  : 处理wallpaper文件
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2020-12-07 15:07:50
+ * @LastEditTime : 2021-03-02 16:03:26
  */
 
 import { genId } from '@/common/tool.js'
@@ -12,7 +12,7 @@ import { videoType } from '../extName'
 const path = require('path')
 const fse = require('fs').promises
 
-async function wallpaperVideo({ res, filePath, childPath, stats }, wallpaperNumber) {
+async function wallpaperVideo({ res, filePath, childPath, stats }) {
   const content = JSON.parse(await fse.readFile(childPath))
   const type = String(content.type).toLowerCase()
   if (type !== 'video') {
@@ -28,7 +28,9 @@ async function wallpaperVideo({ res, filePath, childPath, stats }, wallpaperNumb
       duration: '非视频文件格式',
       stats: { ...stats }
     })
-    return
+
+    console.error('非视频文件格式', content.title)
+    return false
   }
 
   const file = path.join(filePath, content.file)
@@ -37,13 +39,19 @@ async function wallpaperVideo({ res, filePath, childPath, stats }, wallpaperNumb
   try {
     await fse.access(file)
   } catch (error) {
-    // console.log('文件描述地址错误', error)
-    return
+    console.error('文件描述地址错误', content.title, file)
+    return false
   }
 
   // json描述文件非视频文件
-  if (!videoType.includes(path.extname(file).toLowerCase())) {
-    console.log(content.title, '格式错误')
+  if (
+    !videoType.includes(
+      path
+        .extname(file)
+        .slice(1)
+        .toLowerCase()
+    )
+  ) {
     res.push({
       name: content.title,
       img: path.join(filePath, content.preview),
@@ -56,7 +64,8 @@ async function wallpaperVideo({ res, filePath, childPath, stats }, wallpaperNumb
       canplay: 2,
       duration: '格式错误 无法播放'
     })
-    return
+    console.error('格式错误 无法播放', content.title)
+    return false
   }
 
   const target = res.find(x => {
@@ -79,10 +88,12 @@ async function wallpaperVideo({ res, filePath, childPath, stats }, wallpaperNumb
       menu: filePath,
       id: genId(),
       create: stats.birthtimeMs,
+      wallpaper: true,
       stats: { ...stats }
     })
   }
-  wallpaperNumber++
+
+  return true
 }
 
 export default wallpaperVideo

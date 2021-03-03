@@ -1,3 +1,11 @@
+/**
+ * @Date         : 2020-08-18 16:18:16
+ * @Description  :
+ * @Autor        : Qzr(z5021996@vip.qq.com)
+ * @LastEditors  : Qzr(z5021996@vip.qq.com)
+ * @LastEditTime : 2021-03-02 11:16:47
+ */
+
 const { saveConfig, resetData } = require('./script/handleConfig')
 const path = require('path')
 const electron = require('electron')
@@ -48,6 +56,14 @@ const template = [
   {
     label: '设置',
     submenu: [
+      {
+        label: '刷新',
+        click() {
+          const focuse = BrowserWindow.getFocusedWindow()
+          focuse.send('resetFile')
+          focuse.send('setVideoFile')
+        }
+      },
       {
         label: '选择文件夹路径',
         click() {

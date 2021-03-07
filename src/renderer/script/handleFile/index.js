@@ -3,7 +3,7 @@
  * @Description  : 文件处理
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2021-03-02 15:48:31
+ * @LastEditTime : 2021-03-05 11:05:10
  */
 
 import getBasePath from '@/common/basePath.js'
@@ -18,6 +18,9 @@ const fse = require('fs').promises
 
 let videoCount = 0
 let wallpaperCount = 0
+
+let count = 0
+let fileCount = 0
 
 let result = []
 
@@ -39,13 +42,24 @@ function checkFiles() {
   return resArr
 }
 
-async function getAllFiles(filePath, res = result) {
+// 进行计数，并上传vuex
+function setCount() {
+  count++
+  store.dispatch('state/setProgress', {
+    now: count,
+    all: fileCount
+  })
+}
+
+async function getAllFiles(filePath, res = result, recursive = false) {
   const fileArr = await fse.readdir(filePath)
+  if (fileCount === 0) fileCount = fileArr.length
 
   for (const item of fileArr) {
+    if (!recursive) setCount()
     const childPath = path.join(filePath, item)
     const stats = await fse.stat(childPath)
-    if (stats.isDirectory()) await getAllFiles(childPath)
+    if (stats.isDirectory()) await getAllFiles(childPath, result, true)
     if (stats.isFile()) {
       const extName = path
         .extname(item)

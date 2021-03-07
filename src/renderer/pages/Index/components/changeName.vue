@@ -3,7 +3,7 @@
  * @Description  :  更改wallpaper文件夹名
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2021-03-02 17:49:42
+ * @LastEditTime : 2021-03-04 17:06:07
 -->
 <template>
   <div>
@@ -38,7 +38,7 @@ export default {
       this.showChangeProgress = true
       videoList.forEach((item, index) => {
         if (!item.wallpaper) {
-          this.changeProgress = ((index + 1) / length) * 100
+          this.changeProgress = Math.floor(((index + 1) / length) * 100)
           return true
         }
 
@@ -46,16 +46,14 @@ export default {
         let oldName = newName.splice(-1, 1, item.title).join('\\')
         newName = newName.join('\\')
 
-        fs.rename(item.menu, newName, err => {
-          if (err) console.error(err)
+        fs.renameSync(item.menu, newName)
 
-          this.changeProgress = ((index + 1) / length) * 100
-          this.$store.dispatch('content/changeFileInfo', {
-            id: item.id,
-            file: item.file.replace(oldName, item.title),
-            menu: item.menu.replace(oldName, item.title),
-            img: item.img.replace(oldName, item.title)
-          })
+        this.changeProgress = ((index + 1) / length) * 100
+        this.$store.dispatch('content/changeFileInfo', {
+          id: item.id,
+          file: item.file.replace(oldName, item.title),
+          menu: item.menu.replace(oldName, item.title),
+          img: item.img.replace(oldName, item.title)
         })
       })
     }

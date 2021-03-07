@@ -3,7 +3,7 @@
  * @Description  : index
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2021-03-02 18:03:41
+ * @LastEditTime : 2021-03-04 17:36:06
 -->
 
 
@@ -14,6 +14,11 @@
                  @click="chooseFile">
         选择文件夹开始
       </el-button>
+
+      <div v-show="showCount">
+        <i class="el-icon-loading"></i>
+        <span>{{progress}}%</span>
+      </div>
     </div>
 
     <div :style="{ display: fileArr.length === 0 ? 'none' : 'block' }">
@@ -55,8 +60,9 @@
 
         <more></more>
 
-        <div>
+        <div v-show="showCount">
           <i class="el-icon-loading"></i>
+          <span>{{progress}}%</span>
         </div>
       </div>
 
@@ -123,6 +129,14 @@ export default {
       }
 
       return output
+    },
+
+    progress() {
+      return this.$store.getters['state/getProgress']
+    },
+
+    showCount() {
+      return this.progress > 0 && this.progress < 100
     }
   },
 
@@ -146,7 +160,8 @@ export default {
 
       const getNotify = this.$notify({
         title: '获取视频信息中...',
-        message: '获取视频时长及缩略图片'
+        message: '获取视频时长及缩略图片',
+        position: 'bottom-left'
       })
 
       const fixFiles = await fixVideoInfo(files)
@@ -156,7 +171,8 @@ export default {
       this.$notify({
         title: '获取视频信息成功',
         message: '成功获取视频时长及缩略图片',
-        type: 'success'
+        type: 'success',
+        position: 'bottom-left'
       })
 
       this.$store.dispatch('content/setVideoList', fixFiles)

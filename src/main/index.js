@@ -3,11 +3,14 @@
  * @Description  : index
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2020-11-19 17:27:58
+ * @LastEditTime : 2021-03-05 15:29:26
  */
 
 import { app, BrowserWindow } from 'electron'
 import '../renderer/store'
+
+const fs = require('fs')
+const path = require('path')
 
 /**
  * Set `__static` path to static files in production
@@ -32,7 +35,8 @@ function createWindow() {
     width: 1200,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false
+      webSecurity: false,
+      devTools: true
     }
   })
 
@@ -41,6 +45,13 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+}
+
+// 创建data文件夹
+try {
+  fs.statSync(path.resolve('./data')).isFile()
+} catch (e) {
+  fs.mkdirSync(path.resolve('./data'))
 }
 
 app.on('ready', () => {
